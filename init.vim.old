@@ -1,0 +1,523 @@
+" vim:set et sts=4 sw=4 ts=4 tw=78 fdm=marker ft=vim:
+"     ______                     ___                _    ___
+"    / ____/___  _________  ____/ (_)___  ____ _   | |  / (_)___ ___
+"   / /   / __ \/ ___/ __ \/ __  / / __ \/ __ `/   | | / / / __ `__ \
+"  / /___/ /_/ / /__/ /_/ / /_/ / / / / / /_/ /    | |/ / / / / / / /
+"  \____/\____/\___/\____/\__,_/_/_/ /_/\__, /     |___/_/_/ /_/ /_/
+"                                      /____/
+"
+" Maintainer:         Vincent Wancocoding  <https://cocoding.cc>
+" NeoVim Version:                                          0.6.1
+" Version:                                                 0.2.0
+" Created:                                            2021-01-05
+" Updated:                                            2022-11-03
+" OS:                                                   Win10 64
+
+
+
+"*****************************************************************************
+"" NeoVim Settings for Language {{{
+"*****************************************************************************
+" disable ruby and python2 provider
+let g:loaded_ruby_provider = 0
+" let g:ruby_host_prog='d:\develop\apps\scoop\apps\ruby\current\bin\ruby.exe'
+let g:loaded_python_provider = 0
+
+" python3 provider
+let g:python3_host_prog='d:\softs\commons\NeoVim\user\python3\venv\nvim\Scripts\python.exe'
+
+" nodejs provider
+let g:node_host_prog='d:\develop\env\scoop\apps\nvm\current\nodejs\nodejs\node_modules\neovim\bin\cli.js'
+
+" }}}
+
+"*****************************************************************************
+"" Plug install packages {{{
+"*****************************************************************************
+" Required:
+call plug#begin('~/AppData/Local/nvim/plugged')
+
+" ======  themes ======
+Plug 'morhetz/gruvbox'
+Plug 'tomasr/molokai'
+
+
+" ====== fzf ======
+
+" telescope
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-media-files.nvim'
+
+" ====== Language Support Highlighit ======
+" treesitter
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+" ====== UI ======
+" icons
+Plug 'kyazdani42/nvim-web-devicons'
+
+" statusline
+Plug 'nvim-lualine/lualine.nvim'
+
+" ====== Misc ======
+" start screen
+Plug 'mhinz/vim-startify'
+
+" ====== File Explorer ======
+Plug 'kyazdani42/nvim-tree.lua'
+
+" ====== LSP ======
+Plug 'neovim/nvim-lspconfig'
+" completion
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+
+" ====== Snippets Support ======
+Plug 'honza/vim-snippets'
+" For ultisnips users.
+Plug 'SirVer/ultisnips'
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+
+" ====== Coding Misc ======
+" code formatter
+Plug 'mhartington/formatter.nvim'
+
+call plug#end()
+
+" }}}
+
+"*****************************************************************************
+"" Basic Setup {{{
+"*****************************************************************************
+
+" Required:
+filetype plugin indent on
+
+" Encoding
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8,chinese,latin-1,gbk,gb18030,gk2312
+set ttyfast
+
+" path
+" set path+=**
+
+" set clipboard
+set clipboard+=unnamed
+
+" mouse
+set mouse=a
+
+" set leader
+let mapleader = " "
+let g:mapleader = " "
+
+" Fix backspace indent
+set backspace=indent,eol,start          " allow backspacing over everything in insert mode  ,set bs=2  have the same effect
+
+" Use modeline overrides
+set modeline
+set modelines=5
+
+" do not keep a backup file, use versions instead
+set nobackup
+set nowritebackup
+set noswapfile
+
+" undo and history
+set history=700
+set undolevels=700
+
+" tab settings
+set smarttab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set shiftround
+
+" indent settings
+set autoindent
+set smartindent
+
+" auto read when file is changed from outside
+set autoread
+set wildignore=*.o,*.class,*.pyc
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+
+" Searching
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+" disable sound on errors
+if has("gui_running")
+	" Disable visualbell
+	set noerrorbells visualbell t_vb=
+	if has('autocmd')
+		autocmd GUIEnter * set visualbell t_vb=
+	endif
+endif
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=1000
+
+" command completion like zsh
+" set wildmenu off
+set wildmenu
+set wildmode=longest:full
+
+" set dictionary
+set complete+=k
+if has('win32')
+  set dictionary+=c:\Users\ergal\.config\words.txt
+else
+  set dictionary+=/usr/share/dict/words
+endif
+
+" shortmess, the default is filnxtToOIcS, see :h shortmess
+set shm-=S
+
+" Enable hidden buffers
+set hidden
+
+" display incomplete commands
+set showcmd
+
+
+" comletion for nvim-com
+set completeopt=menu,menuone,noselect
+" }}}
+
+"*****************************************************************************
+"" Appearance(Color , theme , StatusLine) {{{
+"*****************************************************************************
+
+syntax enable
+syntax on
+"
+" Maximum width of text that is being inserted
+set tw=79
+" display a column line
+" set colorcolumn=80
+" Show tabs as CTRL-I is displayed, display $ after end of line
+" set list
+" listchar
+" set listchars=tab:▸\ ,eol:¬,trail:·,precedes:←,extends:→
+
+" show the cursor position all the time
+set ruler
+
+" set nu                                  " number line
+let no_buffers_menu=1
+
+" colorscheme
+set background=dark
+set cursorline
+
+" let g:gruvbox_contrast_dark="hard"
+" colorscheme gruvbox
+colorscheme molokai
+
+if has("gui_running")
+	" hide menu and toolbar
+	set guioptions-=m
+	set guioptions-=T
+	" fix cursor on linux gvim
+	set guioptions-=l
+	set guioptions-=L
+	set guioptions-=r
+	set guioptions-=R
+
+	" font
+	" set guifont=Fira\ Code\ weight=453\ 10
+  set guifont=Fira Code:h10
+endif
+
+" }}}
+
+"*****************************************************************************
+"" Abbreviations {{{
+"*****************************************************************************
+
+" no one is really happy until you have this shortcuts
+cnoreabbrev W! w!
+cnoreabbrev Q! q!
+cnoreabbrev Qall! qall!
+cnoreabbrev Wq wq
+cnoreabbrev Wa wa
+cnoreabbrev wQ wq
+cnoreabbrev WQ wq
+cnoreabbrev W w
+cnoreabbrev Q q
+cnoreabbrev Qall qall
+
+" }}}
+
+"*****************************************************************************
+"" Mappings {{{
+"*****************************************************************************
+"" Split
+" noremap <Leader>h :<C-u>split<CR>
+" noremap <Leader>v :<C-u>vsplit<CR>
+
+"" Git
+" noremap <Leader>ga :Gwrite<CR>
+" noremap <Leader>gc :Gcommit<CR>
+" noremap <Leader>gsh :Gpush<CR>
+" noremap <Leader>gll :Gpull<CR>
+" noremap <Leader>gs :Gstatus<CR>
+" noremap <Leader>gb :Gblame<CR>
+" noremap <Leader>gd :Gvdiff<CR>
+" noremap <Leader>gr :Gremove<CR>
+
+" session management
+" nnoremap <leader>so :OpenSession<Space>
+" nnoremap <leader>ss :SaveSession<Space>
+" nnoremap <leader>sd :DeleteSession<CR>
+" nnoremap <leader>sc :CloseSession<CR>
+
+"" Tabs
+" nnoremap <Tab> gt
+" nnoremap <S-Tab> gT
+" nnoremap <silent> <S-t> :tabnew<CR>
+
+"" Set working directory
+nnoremap <leader>. :lcd %:p:h<CR>:pwd<CR>
+
+"" Clean search (highlight)
+nnoremap <silent> <leader>nh :noh<CR>
+
+" Better copy & paste
+:set pastetoggle=<F5>
+
+"" Disable arrowkeys
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+
+" center search results
+nnoremap n nzvzz
+nnoremap N Nzvzz
+nnoremap * *zvzz
+nnoremap # #zvzz
+
+
+
+
+" Make shift-insert work like in Xterm
+map <S-Insert> <MiddleMouse>
+map! <S-Insert> <MiddleMouse>
+
+
+" Use <leader>Esc to leave terminal mode
+tnoremap <leader><Esc> <C-\><C-n>
+
+" tab settings
+noremap <A-1> 1gt
+noremap <A-2> 2gt
+noremap <A-3> 3gt
+noremap <A-4> 4gt
+noremap <A-5> 5gt
+noremap <A-6> 6gt
+noremap <A-7> 7gt
+noremap <A-8> 8gt
+noremap <A-9> :tablast<cr>
+noremap <A-0> :tabfirst<cr>
+
+" windows resize
+:nnoremap <silent> <Up> :resize -1<CR>
+:nnoremap <silent> <Down> :resize +1<CR>
+:nnoremap <silent> <left> :vertical resize -1<CR>
+:nnoremap <silent> <right> :vertical resize +1<CR>
+
+" }}}
+
+"*****************************************************************************
+"" Netrw {{{
+"*****************************************************************************
+
+" let g:netrw_banner = 0
+" " let g:netrw_liststyle = 3
+" let g:netrw_browse_split = 4
+" let g:netrw_altv = 1
+" let g:netrw_winsize = 20
+
+" }}}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" Startify {{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" session
+if has('win32')
+  let g:startify_session_dir = '~\vimfiles/startify_session'
+else
+  let g:startify_session_dir = '~/.nvim/startify_session'
+endif
+
+" auto update session
+let g:startify_session_persistence = 1
+
+
+let g:startify_commands = [
+    \ ':help reference',
+    \ ['Startify Help', 'h startify'],
+    \ {'h': 'h ref'},
+    \ ]
+
+let g:startify_lists = [
+    \ { 'type': 'files',     'header': ['   Recent Files']            },
+    \ { 'type': 'dir',       'header': ['   Current Directory '. getcwd()] },
+    \ { 'type': 'sessions',  'header': ['   Sessions']       },
+    \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+    \ { 'type': 'commands',  'header': ['   Commands']       },
+    \ ]
+
+if has('win32')
+  let g:startify_bookmarks = [
+    \ { 'i': '~\AppData\Local\nvim\init.vim' },
+    \ { 'd': 'd:\develop\workspace'},
+    \ { 'n': 'd:\OneDrive' },
+    \ { 'm': 'd:\OneDrive\docs\cocodocs\content\post' },
+    \ ]
+else
+  let g:startify_bookmarks = [
+    \ { 'i': '~/.vimrc' },
+    \ { 'z': '~/.zshrc' },
+    \ { 'd': '~/develop/workspace'},
+    \ { 'n': '~/Dropbox/docs/md/notes' },
+    \ ]
+endif
+
+" }}}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" UltiSnips {{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UltiSnipsJumpForwardTrigger="<c-n>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsEditSplit="vertical"
+
+" }}}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" lualine {{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+lua << END
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'palenight',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {},
+    always_divide_middle = true,
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {}
+}
+END
+" }}}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" nvim-tree {{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+lua << END
+require("plugin.nvim-tree")
+END
+nnoremap <F3> :NvimTreeToggle<CR>
+
+" }}}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" telescope {{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <leader>fr <cmd>lua require('telescope.builtin').registers()<cr>
+nnoremap <leader>fl <cmd>lua require('telescope.builtin').loclist()<cr>
+nnoremap <leader>fj <cmd>lua require('telescope.builtin').jumplist()<cr>
+nnoremap <leader>fk <cmd>lua require('telescope.builtin').keymaps()<cr>
+nnoremap <leader>fm <cmd>lua require('telescope.builtin').marks()<cr>
+nnoremap <leader>fq <cmd>lua require('telescope.builtin').quickfix()<cr>
+nnoremap <leader>fo <cmd>lua require('telescope.builtin').vim_options()<cr>
+nnoremap <leader>fc <cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>
+
+lua << EOF
+require('plugin.telescope')
+EOF
+" }}}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" LSP {{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+lua << EOF
+require('plugin.nvim-com')
+require('plugin.lsp-config')
+EOF
+" }}}
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" formatter {{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+lua << EOF
+require('plugin.formatter')
+EOF
+
+" }}}
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" tree-sitter {{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+lua require('plugin.tree-sitter')
+
+" }}}
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" Update Log {{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Update Log
+" 2022-11-03
+"     * modify python3 provider path
+"     * modify nodejs provider path
+" 2022-11-04
+"     * remove treesitter
+"     * reset dictionary
+" 2022-11-06
+"     * add tree-sitter
+" }}}

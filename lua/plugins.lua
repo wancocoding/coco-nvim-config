@@ -89,7 +89,7 @@ return require('packer').startup(function(use)
   -- ====================================== 
   -- Language support and LSP
   -- ======================================
-  
+
   -- use {
   --   'nvim-treesitter/nvim-treesitter',
   --   run = ':TSUpdate'
@@ -126,6 +126,10 @@ return require('packer').startup(function(use)
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
   -- dictionary
   use 'uga-rosa/cmp-dictionary'
+
+  -- comment
+  use "terrortylor/nvim-comment"
+
 
   -- ====================================== 
   -- File Explorer

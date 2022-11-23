@@ -66,8 +66,11 @@ require("plugin.nvim-cmp")
 -- trouble
 -- require("plugin.trouble")
 
--- -- vista
+-- vista
 -- require("plugin.vista")
+
+-- comment
+require("plugin.nvim-comment")
 
 -- -- ============================
 -- -- Git
